@@ -1,3 +1,19 @@
-h1{
-    color:aqua;
+.main{
+    background-color: grey;
+    padding: 10px;
+}
+
+.logo{
+    text-align: left;
+    height: 1px;
+}
+
+.Nav-Text-Div{
+    background-color: grey;
+    text-align: center; 
+}
+
+.anchor{
+    padding-left: 3px;
+    padding-right: 3px;
 }
