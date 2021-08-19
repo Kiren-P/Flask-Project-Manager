@@ -17,3 +17,22 @@
     padding-left: 3px;
     padding-right: 3px;
 }
+
+.card{
+    text-align: center;
+    border:2px solid #000;
+}
+
+.center {
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 20%;
+    padding: 10px;
+    }
+
+.grid-container{
+    display: grid;
+    grid-template-columns: 500px 500px 500px;
+    grid-template-rows: 200px 200px 200px;
+}

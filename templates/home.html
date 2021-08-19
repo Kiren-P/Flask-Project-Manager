@@ -1,6 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
-
-    <h1>Hello World</h1>
+    <div class="grid-container">
+        {% for project in projects %}
+            <div class="card center">
+                <b>{{ project.title }}</b>
+                <p>{{ project.description  }}</p>
+                <p>Managed by {{ project.manager }}</p>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}
