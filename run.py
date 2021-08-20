@@ -1,9 +1,9 @@
 from flask import Flask
-from flask import render_template
+from flask import render_template, url_for
 
 app = Flask(__name__)
 
-#learn how to work with grrids in css
+#handle logic for project landing pages
 projetcs = [
     {"title":"test project",
     "description":"This is the first project",
@@ -21,6 +21,10 @@ projetcs = [
 @app.route("/")
 def hello_world():
     return render_template("home.html", projects=projetcs)
+
+@app.route("/project")
+def projectPage():
+    return render_template("project.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

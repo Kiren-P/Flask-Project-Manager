@@ -1,9 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="grid-container">
+    <div>
         {% for project in projects %}
             <div class="card center">
-                <b>{{ project.title }}</b>
+                <div class="boxed">
+                    <button class="button">
+                        <a href="{{url_for('projectPage')}}">{{ project.title }}</a>
+                    </button>
+                </div>
                 <p>{{ project.description  }}</p>
                 <p>Managed by {{ project.manager }}</p>
             </div>
