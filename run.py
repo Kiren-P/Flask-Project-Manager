@@ -3,15 +3,18 @@ from flask import render_template, url_for
 
 app = Flask(__name__)
 
-#handle logic for project landing pages
+#implement bootstrap and build out landing pages
+
 projetcs = [
     {"title":"test project",
     "description":"This is the first project",
-    "manager":"Kiren Panchoe"
+    "manager":"Kiren Panchoe",
+    "id":"0"
     },
     {"title":"test project 2",
     "description":"This is the second project",
-    "manager":"Kiren Panchoe"
+    "manager":"Kiren Panchoe",
+    "id":"1"
     }
 
     ]
@@ -19,12 +22,13 @@ projetcs = [
 
 
 @app.route("/")
-def hello_world():
+def homePage():
     return render_template("home.html", projects=projetcs)
 
-@app.route("/project")
-def projectPage():
-    return render_template("project.html")
-
+#when implementing databases use project title
+@app.route("/project/<project_id>")
+def projectPage(project_id):
+    project = projetcs[int(project_id)]
+    return render_template("project.html", project=project)
 if __name__ == "__main__":
     app.run(debug=True)

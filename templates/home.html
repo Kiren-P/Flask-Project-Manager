@@ -5,7 +5,7 @@
             <div class="card center">
                 <div class="boxed">
                     <button class="button">
-                        <a href="{{url_for('projectPage')}}">{{ project.title }}</a>
+                        <a href="{{url_for('projectPage', project_id=project.id)}}">{{ project.title }}</a>
                     </button>
                 </div>
                 <p>{{ project.description  }}</p>
