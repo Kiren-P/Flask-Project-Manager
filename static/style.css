@@ -3,9 +3,8 @@
     padding: 10px;
 }
 
-.logo{
-    text-align: left;
-    height: 1px;
+#logo{
+    margin-left: 10px;
 }
 
 .Nav-Text-Div{
@@ -23,13 +22,22 @@
     border:2px solid #000;
 }
 
-.center {
-    margin: auto;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    width: 20%;
-    padding: 10px;
+.centered-div {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     }
+
+.navbar-center
+{
+    position: absolute;
+    width: 100%;
+    left: 10%;
+    top: 10%;
+    text-align: center;
+}
 
 .boxed{
     margin: auto;

@@ -2,8 +2,8 @@
 {% block content %}
     <div>
         {% for project in projects %}
-            <div class="card center">
-                <div class="boxed">
+            <div class="card">
+                <div class="card-body">
                     <button class="button">
                         <a href="{{url_for('projectPage', project_id=project.id)}}">{{ project.title }}</a>
                     </button>
