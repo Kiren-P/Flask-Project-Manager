@@ -3,7 +3,7 @@ from flask import render_template, url_for
 
 app = Flask(__name__)
 
-#rebuild frontend with bootstrap
+#continue project page (columns)
 
 projetcs = [
     {"title":"test project",
