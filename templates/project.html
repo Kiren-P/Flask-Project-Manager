@@ -1,17 +1,33 @@
 {% extends "layout.html" %}
+{% block nav_item %}
+<a class="nav-link" href="#">Edit Project</a>
+{% endblock %}
 {% block content %}
-
-<div class="container">
-    <div class="col-2"> content </div>
-    <div class="col-8">
-        <div class="d-flex align-items-center justify-content-start m-5 border border-primary">
-            <p class="text-uppercase font-weight-bold m-1">{{project.title}}</p>
+<div class="container-fluid m-2 ">
+    <div class="row">
+        <div class="col col-3 m-5"> 
+            <ul class="list-group">
+                <li class="list-group-item">task 1</li>
+                <li class="list-group-item">task 2</li>
+            </ul>
         </div>
-        <div class="justify-content-start m-5 custum-div ">
-            <p>{{project.description}}</p>
-        </div>  
+        <div class="col col-4"> 
+            <div class="d-flex align-items-center justify-content-start m-5 border border-primary">
+                <p class="text-uppercase font-weight-bold m-1">task title</p>
+            </div>
+            <div class="justify-content-start m-5 border-primary custum-div ">
+                <p>task description</p>
+            </div>
+        </div>
+        <div class="col col-4">
+            <div class="d-flex align-items-center justify-content-start m-5 border border-primary">
+                <p class="text-uppercase font-weight-bold m-1">{{project.title}}</p>
+            </div>
+            <div class="justify-content-start m-5 border-primary custum-div ">
+                <p>{{project.description}}</p>
+            </div>  
+        </div>
     </div>
-    <div class="col-2"> content </div>
 </div>
 
 {% endblock %}
