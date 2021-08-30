@@ -1,9 +1,26 @@
+from enum import unique
 from flask import Flask
 from flask import render_template, url_for
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 
-#add database
+db = SQLAlchemy(app)
+
+#add data to database and display that data instead of dummy data
+
+class Project(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, unique=True, nullable=False)
+    description = db.Column(db.String)
+    manager = db.Column(db.String, unique=False, nullable=False)
+    #tasks
+
+    def __repr__(self):
+        return f"Project('{self.id}', '{self.title}', '{self.description}', '{self.manager}')"
+
+
 
 projetcs = [
     {"title":"test project",
