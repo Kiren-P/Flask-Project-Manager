@@ -1,21 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
-    <!--
-    <div>
-        {% for project in projects %}
-            <div class="boxed">
-                <div class="card-body">
-                    <button class="button">
-                        <a href="{{url_for('projectPage', project_id=project.id)}}">{{ project.title }}</a>
-                    </button>
-                </div>
-                <div class="boxed">
-                    <p>{{ project.description  }}</p>
-                    <p>Managed by {{ project.manager }}</p>
-                </div>
-            </div>
-        {% endfor %}
-    </div> -->
 
     <div class="container">
         <div class="d-flex align-items-center justify-content-center row">
@@ -25,7 +9,7 @@
                 <h5 class="card-title text-center">{{project.title}}</h5>
                 <p class="card-text text-center">{{project.description}}</p>
                 <div class="text-center">
-                    <a href="{{url_for('projectPage', project_id=project.id)}}" class="btn btn-primary">Project page</a>
+                    <a href="{{url_for('projectPage', project_title=project.title)}}" class="btn btn-primary">Project page</a>
                 </div>
                 </div>
             </div>
