@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+        <div class="row m-2">
+            <form action="{{url_for('homePage')}}">
+                <label for="title" class="text-uppercase">Project Title </label>
+                <br>
+                <input name="title"class="custom-width" type="text">
+                <br>
+                <label for="desc" class="text-uppercase mt-3">Project Description </label>
+                <br>
+                <textarea name="desc" class="desc-text-input" type="text"></textarea>
+                <br>
+                <label for="manager" class="text-uppercase mt-3">Project Manager </label>
+                <br>
+                <input name="manager" class="custom-width" type="text">
+                <br>
+                <input type="submit" class="btn btn-primary mt-3"></button>
+            </form>
+        </div>
+
+    </div>
+{% endblock %}

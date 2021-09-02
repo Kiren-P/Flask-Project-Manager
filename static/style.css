@@ -3,8 +3,14 @@
     margin-left: 10px;
 }
 
+.custom-width{
+   width: 300px; 
+}
 
-
+.desc-text-input{
+    height: 300px;
+    width: 600px;
+}
 
 .custum-div {
     height: 500px;

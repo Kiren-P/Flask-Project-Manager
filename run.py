@@ -8,7 +8,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 
 db = SQLAlchemy(app)
 
-#make create new project page
+#add logic for adding new projects to database
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -26,6 +26,11 @@ class Project(db.Model):
 def homePage():
     projects_all = Project.query.all()
     return render_template("home.html", projects=projects_all)
+
+@app.route("/NewProject")
+def newProject():
+    return render_template("new_project.html")
+
 
 @app.route("/project/<project_title>")
 def projectPage(project_title):
