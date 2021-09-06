@@ -1,14 +1,15 @@
 from enum import unique
 from flask import Flask
-from flask import render_template, url_for
+from flask import render_template, url_for, request
 from flask_sqlalchemy import SQLAlchemy
+
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 
 db = SQLAlchemy(app)
 
-#add logic for adding new projects to database
+#find a way to implement tasks
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -21,13 +22,19 @@ class Project(db.Model):
         return f"Project('{self.id}', '{self.title}', '{self.description}', '{self.manager}')"
 
 
-
-@app.route("/")
+@app.route("/", methods=["GET", "POST"] )
 def homePage():
+    if request.method == "POST":
+        title = request.form.get("title")
+        desc = request.form.get("desc")
+        manager = request.form.get("manager")
+        new_project = Project(title=title, description=desc, manager=manager)
+        db.session.add(new_project)
+        db.session.commit()
     projects_all = Project.query.all()
     return render_template("home.html", projects=projects_all)
 
-@app.route("/NewProject")
+@app.route("/NewProject", methods=["GET", "POST"])
 def newProject():
     return render_template("new_project.html")
 
