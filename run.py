@@ -9,17 +9,28 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 
 db = SQLAlchemy(app)
 
-#find a way to implement tasks
+#display project tasks in website 
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, unique=True, nullable=False)
     description = db.Column(db.String)
     manager = db.Column(db.String, nullable=False)
+    tasks = db.relationship("Task", backref="task", lazy=True)
     #tasks
 
     def __repr__(self):
         return f"Project('{self.id}', '{self.title}', '{self.description}', '{self.manager}')"
+
+class Task(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, unique=True, nullable=False)
+    description = db.Column(db.String)
+    project_id = db.Column(db.Integer, db.ForeignKey("project.id"), nullable=False)
+
+    def __repr__(self):
+        return f"Task('{self.title}', '{self.description}')"
+
 
 
 @app.route("/", methods=["GET", "POST"] )
