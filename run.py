@@ -9,7 +9,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 
 db = SQLAlchemy(app)
 
-#display project tasks in website 
+#make add tasks page
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -17,7 +17,6 @@ class Project(db.Model):
     description = db.Column(db.String)
     manager = db.Column(db.String, nullable=False)
     tasks = db.relationship("Task", backref="task", lazy=True)
-    #tasks
 
     def __repr__(self):
         return f"Project('{self.id}', '{self.title}', '{self.description}', '{self.manager}')"
@@ -30,7 +29,6 @@ class Task(db.Model):
 
     def __repr__(self):
         return f"Task('{self.title}', '{self.description}')"
-
 
 
 @app.route("/", methods=["GET", "POST"] )
@@ -53,7 +51,13 @@ def newProject():
 @app.route("/project/<project_title>")
 def projectPage(project_title):
     project = Project.query.filter_by(title=str(project_title)).first()
-    return render_template("project.html", project=project)
+    tasks = project.tasks
+    return render_template("project.html", project=project, tasks=tasks)
+
+@app.route("/AddTask")
+def addTask():
+    return render_template("add_task.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
