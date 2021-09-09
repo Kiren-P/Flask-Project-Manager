@@ -5,7 +5,7 @@
             <a class="nav-link" href="#">Edit Project</a>
         </li>
         <li class="nav-item"> 
-            <a class="nav-link" href="{{url_for('addTask')}}">Add tasks</a>
+            <a class="nav-link" href="{{url_for('addTask', project_title=project.title)}}">Add tasks</a>
         </li>
     </ul>
 {% endblock %}

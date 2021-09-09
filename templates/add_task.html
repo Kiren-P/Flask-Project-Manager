@@ -1,4 +1,17 @@
 {%extends "layout.html"%}
 {% block content %}
-    add tasks form
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-center row">
+            <form action="{{url_for('projectPage', project_title=project.title)}}" method="POST">
+                <label for="task_title" class="text-uppercase">Task Title </label>
+                <br>
+                <input name="task_title"class="custom-width" type="text">
+                <br>
+                <label for="task_desc" class="text-uppercase mt-3">Task Description </label>
+                <br>
+                <textarea name="task_desc" class="desc-text-input" type="text"></textarea>
+                <br>
+                <input type="submit" class="btn btn-primary mt-3"></input>
+        </div>
+    </div>
 {% endblock %}
