@@ -61,6 +61,11 @@ def projectPage(project_title):
     tasks = project.tasks
     return render_template("project.html", project=project, tasks=tasks)
 
+@app.route("/project/<project_title>/<displayed_task>", methods=["POST", "GET"])
+def taskProjectPage():
+    #use this to create project page with tasks properly displayed
+    pass
+
 @app.route("/<project_title>/AddTask")
 def addTask(project_title):
     project = Project.query.filter_by(title=str(project_title)).first()
