@@ -1,6 +1,7 @@
 from enum import unique
 from flask import Flask
 from flask import render_template, url_for, request
+from flask.templating import render_template_string
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -9,7 +10,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 
 db = SQLAlchemy(app)
 
-#properly display project besides tasks
+#make this edit_tasks page
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -74,8 +75,13 @@ def taskPage(project_title, task_title):
         title = i.title
         if task_title == title:
             task = i      
-    return render_template("tasks.html", task=task)
+    return render_template("tasks.html", task=task, project=project)
 
+app.route("/project/<project_title>/<task_title>/edittask")
+def editTask(project_title, task_title):
+    """this routes to the page where you can edit/delete tasks"""
+    #return render_template("edit_tasks.html") 
+    pass
 
 
 if __name__ == "__main__":

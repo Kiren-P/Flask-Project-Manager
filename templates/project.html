@@ -11,8 +11,8 @@
 {% endblock %}
 {% block content %}
 <div class="container-fluid m-2 ">
-    {% if tasks %}
-        <div class="row">
+    <div class="row">
+        {% if tasks %}
             <div class="col col-2 m-2"> 
                 {%for task in tasks%}
                         <ul class="list-group m-2">
@@ -20,14 +20,14 @@
                         </ul>
                 {%endfor%}
             </div>            
-        </div>
-    {%endif%}
-    <div class="col-6">
-        <div class="d-flex align-items-center justify-content-start m-5 border border-primary">
-            <p class="text-uppercase font-weight-bold m-1">{{project.title}}</p>
-        </div>
-        <div class="justify-content-start m-5 border-primary custum-div ">
-            <p>{{project.description}}</p>
+        {%endif%}
+        <div class="col-8">
+            <div class="d-flex align-items-center justify-content-start m-3 border border-primary">
+                <p class="text-uppercase font-weight-bold m-1">{{project.title}}</p>
+            </div>
+            <div class="justify-content-start m-3 border-primary custum-div ">
+                <p>{{project.description}}</p>
+            </div>
         </div>  
     </div>
 </div>
