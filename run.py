@@ -10,7 +10,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 
 db = SQLAlchemy(app)
 
-#make this edit_tasks page
+#continue edit_tasks page and add logic
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -77,11 +77,16 @@ def taskPage(project_title, task_title):
             task = i      
     return render_template("tasks.html", task=task, project=project)
 
-app.route("/project/<project_title>/<task_title>/edittask")
+
+@app.route("/edit/<project_title>/<task_title>")
 def editTask(project_title, task_title):
-    """this routes to the page where you can edit/delete tasks"""
-    #return render_template("edit_tasks.html") 
-    pass
+    project = Project.query.filter_by(title=str(project_title)).first()
+    tasks = project.tasks
+    for i in tasks:
+        title = i.title
+        if task_title == title:
+            task = i 
+    return render_template("edit_tasks.html", project=project, task=task)
 
 
 if __name__ == "__main__":

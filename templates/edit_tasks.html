@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex align-items-center justify-content-center row">
+        <form action="#" method="POST">
+            <label for="task_title" class="text-uppercase">Task Title </label>
+            <br>
+            <input name="task_title"class="custom-width" value="{{task.title}}" type="text">
+            <br>
+            <label for="task_desc" class="text-uppercase mt-3">Task Description </label>
+            <br>
+            <textarea name="task_desc" class="desc-text-input" type="text">{{task.description}}</textarea>
+            <br>
+            <input type="submit" class="btn btn-primary mt-3"></input>
+            <a href="#" class="btn btn-danger mt-3">Delete Task</a>
+    </div>
+</div>
+{% endblock %}

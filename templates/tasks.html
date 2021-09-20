@@ -2,7 +2,7 @@
 {% block nav_item %}
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" href="#">Edit task</a>
+            <a class="nav-link" href="{{url_for('editTask', project_title=project.title, task_title=task.title)}}">Edit tasks</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{url_for('projectPage', project_title=project.title)}}">Back</a>
