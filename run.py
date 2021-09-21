@@ -1,6 +1,6 @@
 from enum import unique
 from flask import Flask
-from flask import render_template, url_for, request
+from flask import render_template, redirect, url_for, request
 from flask.templating import render_template_string
 from flask_sqlalchemy import SQLAlchemy
 
@@ -10,7 +10,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 
 db = SQLAlchemy(app)
 
-#continue edit_tasks page and add logic
+#make delete task work
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -74,11 +74,17 @@ def taskPage(project_title, task_title):
     for i in tasks:
         title = i.title
         if task_title == title:
-            task = i      
+            task = i
+    if request.method == "POST":
+        new_task_title = request.form.get("task_title")
+        new_task_desc = request.form.get("task_desc")
+        task.title = new_task_title
+        task.description = new_task_desc
+        db.session.commit()
     return render_template("tasks.html", task=task, project=project)
 
 
-@app.route("/edit/<project_title>/<task_title>")
+@app.route("/edit/<project_title>/<task_title>", methods=["POST", "GET"])
 def editTask(project_title, task_title):
     project = Project.query.filter_by(title=str(project_title)).first()
     tasks = project.tasks
@@ -88,6 +94,18 @@ def editTask(project_title, task_title):
             task = i 
     return render_template("edit_tasks.html", project=project, task=task)
 
-
+# @app.route("/delete/<project_title>/<task_title>", methods=["POST"])
+# def deleteTask(project_title, task_title):
+#     project = Project.query.filter_by(title=str(project_title)).first()
+#     tasks = project.tasks
+#     for i in tasks:
+#         title = i.title
+#         if title == task_title:
+#             task = i
+#     if request.method == "POST":
+#         db.session.detele(task)
+#         db.session.commit()
+#         return render_template("project.html", project=project, tasks=tasks)
+        
 if __name__ == "__main__":
     app.run(debug=True)
