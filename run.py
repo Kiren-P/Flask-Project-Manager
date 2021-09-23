@@ -10,7 +10,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 
 db = SQLAlchemy(app)
 
-#make delete task work
+#add logic for editing projects (scrol down)
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -48,7 +48,6 @@ def homePage():
 def newProject():
     return render_template("new_project.html")
 
-
 @app.route("/project/<project_title>", methods=["POST", "GET"])
 def projectPage(project_title):
     project = Project.query.filter_by(title=str(project_title)).first()
@@ -62,10 +61,18 @@ def projectPage(project_title):
     tasks = project.tasks
     return render_template("project.html", project=project, tasks=tasks)
 
+@app.route("/edit/<project_title>")
+def editProject(project_title):
+    project = Project.query.filter_by(title=project_title).first()
+    return render_template("edit_project.html", project=project)
+
 @app.route("/<project_title>/AddTask")
 def addTask(project_title):
     project = Project.query.filter_by(title=str(project_title)).first()
     return render_template("add_task.html", project=project)
+
+#make route that adds tasks and redirects to project page and use projectPage post method to edit projects
+#instead of adding tasks
 
 @app.route("/project/<project_title>/<task_title>", methods=["POST", "GET"])
 def taskPage(project_title, task_title):
@@ -94,18 +101,18 @@ def editTask(project_title, task_title):
             task = i 
     return render_template("edit_tasks.html", project=project, task=task)
 
-# @app.route("/delete/<project_title>/<task_title>", methods=["POST"])
-# def deleteTask(project_title, task_title):
-#     project = Project.query.filter_by(title=str(project_title)).first()
-#     tasks = project.tasks
-#     for i in tasks:
-#         title = i.title
-#         if title == task_title:
-#             task = i
-#     if request.method == "POST":
-#         db.session.detele(task)
-#         db.session.commit()
-#         return render_template("project.html", project=project, tasks=tasks)
+@app.route("/delete/<project_title>/<task_title>", methods=["POST"])
+def deleteTask(project_title, task_title):
+    project = Project.query.filter_by(title=str(project_title)).first()
+    tasks = project.tasks
+    for i in tasks:
+        title = i.title
+        if title == task_title:
+            task = i
+    if request.method == "POST":
+        Task.query.filter_by(title=task_title).delete()
+        db.session.commit()
+        return redirect(url_for("projectPage", project_title=project.title))
         
 if __name__ == "__main__":
     app.run(debug=True)

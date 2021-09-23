@@ -1,20 +1,22 @@
 {% extends "layout.html" %}
-
+{% block nav_item %}
+    <a class="nav-link" href="{{url_for('projectPage', project_title=project.title)}}">Back</a>
+{%endblock%}
 {% block content %}
 <div class="container">
     <div class="d-flex align-items-center justify-content-center row">
-        <form action="{{url_for('taskPage', project_title=project.title, task_title=task.title)}}" method="POST">
-            <label for="task_title" class="text-uppercase">Task Title </label>
+        <form action="{{url_for('projectPage', project_title=project.title)}}" method="POST">
+            <label for="project_title" class="text-uppercase">Project Title </label>
             <br>
-            <input name="task_title"class="custom-width" value="{{task.title}}" type="text">
+            <input name="project_title"class="custom-width" value="{{project.title}}" type="text">
             <br>
-            <label for="task_desc" class="text-uppercase mt-3">Task Description </label>
+            <label for="project_desc" class="text-uppercase mt-3">Project Description </label>
             <br>
-            <textarea name="task_desc" class="desc-text-input" type="text">{{task.description}}</textarea>
+            <textarea name="project_desc" class="desc-text-input" type="text">{{project.description}}</textarea>
             <br>
             <input type="submit" value="Done" class="btn btn-primary mt-3">
-            <button type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="#deleteModal" >Delete Task</button>
-            <a href="{{url_for('taskPage', project_title=project.title, task_title=task.title)}}" class="btn btn-secondary mt-3">Cancel</a>
+            <button type="button" class="btn btn-danger mt-3" data-toggle="modal" data-target="#deleteModal" >Delete Project</button>
+            <a href="{{url_for('projectPage', project_title=project.title)}}" class="btn btn-secondary mt-3">Cancel</a>
         </form>
     </div>
 </div>
@@ -30,11 +32,11 @@
           </button>
         </div>
         <div class="modal-body">
-          This will delete the task permanently
+          This will delete the project permanently
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <form action="{{url_for('deleteTask', project_title=project.title, task_title=task.title)}}" method="POST">
+          <form action="#" method="POST">
                 <input class="btn btn-danger" type="submit" value="Delete">
           </form>
         </div>
