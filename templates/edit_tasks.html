@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
     <div class="d-flex align-items-center justify-content-center row">
-        <form action="{{url_for('taskPage', project_title=project.title, task_title=task.title)}}" method="POST">
+        <form action="{{url_for('editTask', project_title=project.title, task_title=task.title)}}" method="POST">
             <label for="task_title" class="text-uppercase">Task Title </label>
             <br>
             <input name="task_title"class="custom-width" value="{{task.title}}" type="text">

@@ -4,13 +4,12 @@ from flask import render_template, redirect, url_for, request
 from flask.templating import render_template_string
 from flask_sqlalchemy import SQLAlchemy
 
-
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 
 db = SQLAlchemy(app)
 
-#add logic for editing projects (scrol down)
+#add more cancel/back buttons, add error page handling, etc...
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -34,6 +33,11 @@ class Task(db.Model):
 
 @app.route("/", methods=["GET", "POST"] )
 def homePage():
+    projects_all = Project.query.all()
+    return render_template("home.html", projects=projects_all)
+
+@app.route("/NewProject", methods=["GET", "POST"])
+def newProject():
     if request.method == "POST":
         title = request.form.get("title")
         desc = request.form.get("desc")
@@ -41,15 +45,38 @@ def homePage():
         new_project = Project(title=title, description=desc, manager=manager)
         db.session.add(new_project)
         db.session.commit()
-    projects_all = Project.query.all()
-    return render_template("home.html", projects=projects_all)
-
-@app.route("/NewProject", methods=["GET", "POST"])
-def newProject():
+        return redirect(url_for("homePage"))
     return render_template("new_project.html")
 
 @app.route("/project/<project_title>", methods=["POST", "GET"])
 def projectPage(project_title):
+    project = Project.query.filter_by(title=str(project_title)).first()
+    tasks = project.tasks
+    return render_template("project.html", project=project, tasks=tasks)
+
+@app.route("/edit/<project_title>", methods=["POST", "GET"])
+def editProject(project_title):
+    project = Project.query.filter_by(title=project_title).first()
+    if request.method == "POST":
+        new_title = request.form.get("project_title")
+        new_desc = request.form.get("project_desc")
+        project.title = new_title
+        project.description = new_desc
+        db.session.commit()
+        return redirect(url_for("projectPage", project_title=project.title))
+    return render_template("edit_project.html", project=project)
+
+@app.route("/delete/<project_title>", methods=["POST"])
+def deleteProject(project_title):
+    if request.method == "POST":
+        Project.query.filter_by(title=project_title).delete()
+        db.session.commit()
+        return redirect(url_for("homePage"))
+    else:
+        pass #make it return 404
+
+@app.route("/<project_title>/AddTask", methods=["POST", "GET"])
+def addTask(project_title):
     project = Project.query.filter_by(title=str(project_title)).first()
     if request.method == "POST":
         task_title = request.form.get("task_title")
@@ -58,21 +85,8 @@ def projectPage(project_title):
         new_task = Task(title=task_title, description=task_desc, project_id=projectID)
         db.session.add(new_task)
         db.session.commit()
-    tasks = project.tasks
-    return render_template("project.html", project=project, tasks=tasks)
-
-@app.route("/edit/<project_title>")
-def editProject(project_title):
-    project = Project.query.filter_by(title=project_title).first()
-    return render_template("edit_project.html", project=project)
-
-@app.route("/<project_title>/AddTask")
-def addTask(project_title):
-    project = Project.query.filter_by(title=str(project_title)).first()
+        return redirect(url_for("projectPage", project_title=project_title))
     return render_template("add_task.html", project=project)
-
-#make route that adds tasks and redirects to project page and use projectPage post method to edit projects
-#instead of adding tasks
 
 @app.route("/project/<project_title>/<task_title>", methods=["POST", "GET"])
 def taskPage(project_title, task_title):
@@ -82,14 +96,7 @@ def taskPage(project_title, task_title):
         title = i.title
         if task_title == title:
             task = i
-    if request.method == "POST":
-        new_task_title = request.form.get("task_title")
-        new_task_desc = request.form.get("task_desc")
-        task.title = new_task_title
-        task.description = new_task_desc
-        db.session.commit()
     return render_template("tasks.html", task=task, project=project)
-
 
 @app.route("/edit/<project_title>/<task_title>", methods=["POST", "GET"])
 def editTask(project_title, task_title):
@@ -99,6 +106,13 @@ def editTask(project_title, task_title):
         title = i.title
         if task_title == title:
             task = i 
+    if request.method == "POST":
+        new_task_title = request.form.get("task_title")
+        new_task_desc = request.form.get("task_desc")
+        task.title = new_task_title
+        task.description = new_task_desc
+        db.session.commit()
+        return redirect(url_for("taskPage", project_title=project.title, task_title=task.title))
     return render_template("edit_tasks.html", project=project, task=task)
 
 @app.route("/delete/<project_title>/<task_title>", methods=["POST"])
@@ -110,7 +124,7 @@ def deleteTask(project_title, task_title):
         if title == task_title:
             task = i
     if request.method == "POST":
-        Task.query.filter_by(title=task_title).delete()
+        db.session.delete(task)
         db.session.commit()
         return redirect(url_for("projectPage", project_title=project.title))
         
