@@ -129,4 +129,4 @@ def deleteTask(project_title, task_title):
         return redirect(url_for("projectPage", project_title=project.title))
         
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
