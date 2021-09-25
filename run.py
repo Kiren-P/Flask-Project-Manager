@@ -6,16 +6,14 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
-
 db = SQLAlchemy(app)
 
-#add more cancel/back buttons, add error page handling, etc...
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, unique=True, nullable=False)
     description = db.Column(db.String)
-    manager = db.Column(db.String, nullable=False)
+    manager = db.Column(db.String, nullable=False) #person who manages the project
     tasks = db.relationship("Task", backref="task", lazy=True)
 
     def __repr__(self):
@@ -69,11 +67,13 @@ def editProject(project_title):
 @app.route("/delete/<project_title>", methods=["POST"])
 def deleteProject(project_title):
     if request.method == "POST":
+        project = Project.query.filter_by(title=project_title).first()
+        tasks = project.tasks
+        for task in tasks:
+            db.session.delete(task)
         Project.query.filter_by(title=project_title).delete()
         db.session.commit()
         return redirect(url_for("homePage"))
-    else:
-        pass #make it return 404
 
 @app.route("/<project_title>/AddTask", methods=["POST", "GET"])
 def addTask(project_title):

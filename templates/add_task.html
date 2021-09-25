@@ -12,6 +12,7 @@
                 <textarea name="task_desc" class="desc-text-input" type="text"></textarea>
                 <br>
                 <input type="submit" value="Add" class="btn btn-primary mt-3"></input>
+                <a href="{{url_for('projectPage', project_title=project.title)}}" class="btn btn-secondary mt-3">Cancel</a>
         </div>
     </div>
 {% endblock %}
